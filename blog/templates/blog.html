@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+{% block title %}
+    Blog Page
+{% endblock %}
+
+{% block content %}
+
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <h2>Derniers relevés</h2>
+                <p>Sur les 15 derniers jours</p>
+                <br>
+                <table class="table table-hover table-dark">
+                    <thead>
+                        <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Code</th>
+                            <th scope="col">Price</th>
+                            <th scope="col">Description</th>
+                            <th scope="col">Is it a good Item?</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                            {% for item in items %}
+                            {% include 'includes/items_modal.html' %}
+                                <tr>
+                                    <td>{{ item.id }}</td>
+                                    <td>{{ item.name }}</td>
+                                    <td>{{ item.barcode }}</td>
+                                    <td>{{ item.price }}$</td>
+                                    <td>
+                                        <button class="btn btn-outline btn-info" data-toggle="modal" data-target="#Modal-MoreInfo-{{ item.id }}">Informations</button>
+                                        <button class="btn btn-outline btn-success" data-toggle="modal" data-target="#Modal-PurchaseConfirm-{{ item.id }}">Buy</button>
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-outline btn-success" data-toggle="modal" data-target="#Modal-Thx">No</button>
+                                        <button class="btn btn-outline btn-danger" data-toggle="modal" data-target="#Modal-Thx">Yes</button>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <br>
+    <div class="container">
+        <h2>Owned Items</h2>
+        <br>
+        <div class="row">
+            {% for owned_item in owned_items %}
+            {% include 'includes/owned_item_modal.html' %}
+                <div class="col-md-4">
+                    <div style="margin-bottom: 5px" class="card text-center bg-dark">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ owned_item.name }}</h5>
+                            <button type="button" class="btn btn-outline-danger" style="margin-bottom: 5px;" data-toggle="modal" data-target="#Modal-SellingConfirm-{{ owned_item.id }}"> 
+                                Sell
+                            </button>
+                            <p class="card-text">{{ owned_item.price }}</p>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
